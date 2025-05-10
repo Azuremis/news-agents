@@ -443,3 +443,9 @@ What began as a frustrating series of errors—first in Python, then in Amazon Q
 ---
 
 *This post reflects a real debugging journey encountered while working with Python, the Model Context Protocol, and Amazon Q.*
+
+---
+
+## References
+
+> Yan, Ziyou. ["Building News Agents for Daily News Recaps with MCP, Q, and tmux."](https://eugeneyan.com/writing/news-agents/) eugeneyan.com, May 2025.
