@@ -47,6 +47,35 @@ PANES=($(tmux list-panes -t ${SESSION}:${WINDOW} -F '#{pane_id}'))
 #   PANES[1]: Sub-Agent 1 (top-right)
 #   PANES[2]: Sub-Agent 2 (bottom-right)
 #   PANES[3]: Sub-Agent 3 (bottom-left)
+
+# Arrange panes for monitoring
+# 1. First set even-vertical layout to ensure all panes are visible
+tmux select-layout -t ${SESSION}:${WINDOW} even-vertical
+
+# 2. Then switch to tiled layout for balanced 2x2 grid
+tmux select-layout -t ${SESSION}:${WINDOW} tiled
+
+# 3. Add labels to identify each agent
+tmux select-pane -t ${PANES[0]}
+tmux display-message -p "Main Agent"
+
+tmux select-pane -t ${PANES[1]}
+tmux display-message -p "Sub-Agent 1"
+
+tmux select-pane -t ${PANES[2]}
+tmux display-message -p "Sub-Agent 2"
+
+tmux select-pane -t ${PANES[3]}
+tmux display-message -p "Sub-Agent 3"
+
+# 4. Optionally customize panes with distinct borders or colors
+tmux set-option -p -t ${PANES[0]} pane-border-style "fg=green"
+tmux set-option -p -t ${PANES[1]} pane-border-style "fg=yellow"
+tmux set-option -p -t ${PANES[2]} pane-border-style "fg=cyan"
+tmux set-option -p -t ${PANES[3]} pane-border-style "fg=magenta"
+
+# 5. Return focus to the main agent pane
+tmux select-pane -t ${PANES[0]}
 ```
 
 ### C. Communication Protocol
