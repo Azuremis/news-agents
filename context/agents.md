@@ -25,35 +25,28 @@ AGENT_WINDOW=$(tmux display-message -t $AGENT_PANE -p '#{window_id}')
 ### B. Sub-Agent Spawning Protocol (2x2 Grid Layout)
 
 ```bash
-# Create single sub-agent (split right)
-tmux split-window -t $AGENT_WINDOW -h "q chat --trust-all-tools"
-sleep 1  # Initialization delay required
+# Hard-code your tmux session and window
+SESSION="news-agents"
+WINDOW="0"
 
-# Identify sub-agent pane
-SUB_AGENT_PANE=$(tmux list-panes -t $AGENT_WINDOW -F '#{pane_id}' | tail -n 1)
+# 1. First split: right (main agent stays in pane 0; sub-agent 1 will be in pane 1)
+tmux split-window -t ${SESSION}:${WINDOW} -h "q chat --trust-all-tools"
+sleep 1
 
-# For Multiple Agents (2x2 Grid layout):
+# 2. Second split: sub-agent 2 below the right pane (pane 1)
+tmux split-window -t ${SESSION}:${WINDOW}.1 -v "q chat --trust-all-tools"
+sleep 1
 
-# 1. First split: right (main agent on left, sub-agent 1 on right)
-tmux split-window -t $AGENT_WINDOW -h "q chat --trust-all-tools"
-sleep 2
+# 3. Third split: sub-agent 3 below the left pane (pane 0)
+tmux split-window -t ${SESSION}:${WINDOW}.0 -v "q chat --trust-all-tools"
+sleep 1
 
-# 2. Second split: horizontal split on right pane (sub-agent 1 on top, sub-agent 2 below)
-RIGHT_PANE=$(tmux list-panes -t $AGENT_WINDOW -F '#{pane_id}' | tail -n 1)
-tmux split-window -t $RIGHT_PANE -v "q chat --trust-all-tools"
-sleep 2
-
-# 3. Third split: horizontal split on left pane (main agent on top, sub-agent 3 below)
-LEFT_PANE=$(tmux list-panes -t $AGENT_WINDOW -F '#{pane_id}' | head -n 1)
-tmux split-window -t $LEFT_PANE -v "q chat --trust-all-tools"
-sleep 2
-
-# Get all pane IDs in the final layout:
-# - PANES[0]: Main agent (top left)
-# - PANES[1]: Sub-agent 3 (bottom left)
-# - PANES[2]: Sub-agent 1 (top right)
-# - PANES[3]: Sub-agent 2 (bottom right)
-PANES=($(tmux list-panes -t $AGENT_WINDOW -F '#{pane_id}'))
+# Get all pane IDs in the final 2×2 layout
+PANES=($(tmux list-panes -t ${SESSION}:${WINDOW} -F '#{pane_id}'))
+#   PANES[0]: Main Agent (top-left)
+#   PANES[1]: Sub-Agent 1 (top-right)
+#   PANES[2]: Sub-Agent 2 (bottom-right)
+#   PANES[3]: Sub-Agent 3 (bottom-left)
 ```
 
 ### C. Communication Protocol
