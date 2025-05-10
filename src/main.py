@@ -1,20 +1,20 @@
 from mcp.server.fastmcp import FastMCP
 
-from ainews import (
+from .ainews import (
     DEFAULT_AINEWS_RSS_URL,
     fetch_ainews_rss,
     format_ainews_story,
     parse_ainews_rss,
 )
-from hackernews import DEFAULT_HN_RSS_URL, fetch_hn_rss, format_hn_story, parse_hn_rss
-from techcrunch import DEFAULT_TC_RSS_URL, fetch_tc_rss, format_tc_story, parse_tc_rss
-from wired import (
+from .hackernews import DEFAULT_HN_RSS_URL, fetch_hn_rss, format_hn_story, parse_hn_rss
+from .techcrunch import DEFAULT_TC_RSS_URL, fetch_tc_rss, format_tc_story, parse_tc_rss
+from .wired import (
     DEFAULT_WIRED_RSS_URL,
     fetch_wired_rss,
     format_wired_story,
     parse_wired_rss,
 )
-from wsj import DEFAULT_WSJ_RSS_URL, fetch_wsj_rss, format_wsj_story, parse_wsj_rss
+from .wsj import DEFAULT_WSJ_RSS_URL, fetch_wsj_rss, format_wsj_story, parse_wsj_rss
 
 # Initialize FastMCP server
 mcp = FastMCP("news-mcp")
@@ -166,4 +166,6 @@ async def get_wired_stories(
 
 if __name__ == "__main__":
     # Initialize and run the server
+    print("Server started. Listening for requests...")
     mcp.run(transport="stdio")
+    

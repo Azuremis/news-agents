@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+      "news-tools": {
+        "command": "/workspaces/news-agents/.venv/bin/python",
+        "args": ["-m", "src.main"],
+        "env": {
+          "PYTHONPATH": "/workspaces/news-agents"
+        }
+      }
+    }
+  }
